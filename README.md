@@ -1,5 +1,7 @@
-🧱 Tech Stack
+A small, security-aware FinTech demo application built with Flask that showcases core cybersecurity concepts: authentication, input validation, protected storage, session management, safe error handling, encryption/decryption, activity logs, and file-upload validation.
+It includes a repeatable manual testing plan (20 tests) to validate common security controls without automated scanners.
 
+🧱 Tech Stack
 Backend: Python 3.x, Flask
 Auth/Hashing: bcrypt (via flask-bcrypt or passlib)
 Sessions: Flask sessions / secure cookies
