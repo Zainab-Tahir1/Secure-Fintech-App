@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Secure FinTech App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="bi bi-speedometer2"></i> Dashboard</h4>
+            </div>
+            <div class="card-body">
+                <h5>Welcome, {{ user[2] if user[2] else user[0] }}!</h5>
+                <p class="text-muted mb-0">
+                    <i class="bi bi-envelope"></i> {{ user[1] }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-center bg-primary text-white">
+            <div class="card-body">
+                <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+                <h5 class="mt-2">Profile</h5>
+                <a href="{{ url_for('profile') }}" class="btn btn-light btn-sm mt-2">
+                    View Profile
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-center bg-success text-white">
+            <div class="card-body">
+                <i class="bi bi-cash-coin" style="font-size: 3rem;"></i>
+                <h5 class="mt-2">New Transaction</h5>
+                <a href="{{ url_for('transaction') }}" class="btn btn-light btn-sm mt-2">
+                    Create Transaction
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-center bg-warning text-white">
+            <div class="card-body">
+                <i class="bi bi-cloud-upload" style="font-size: 3rem;"></i>
+                <h5 class="mt-2">Upload File</h5>
+                <a href="{{ url_for('upload') }}" class="btn btn-light btn-sm mt-2">
+                    Upload
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-center bg-info text-white">
+            <div class="card-body">
+                <i class="bi bi-list-check" style="font-size: 3rem;"></i>
+                <h5 class="mt-2">Audit Logs</h5>
+                <a href="{{ url_for('audit_logs') }}" class="btn btn-light btn-sm mt-2">
+                    View Logs
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-clock-history"></i> Recent Transactions</h5>
+            </div>
+            <div class="card-body">
+                {% if transactions %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.id }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if transaction.type == 'deposit' %}success{% elif transaction.type == 'withdrawal' %}danger{% else %}primary{% endif %}">
+                                            {{ transaction.type|title }}
+                                        </span>
+                                    </td>
+                                    <td>${{ "%.2f"|format(transaction.amount) }}</td>
+                                    <td>{{ transaction.description }}</td>
+                                    <td>{{ transaction.date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-info-circle"></i> No transactions yet. 
+                        <a href="{{ url_for('transaction') }}" class="alert-link">Create your first transaction</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
